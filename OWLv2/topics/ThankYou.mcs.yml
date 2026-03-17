@@ -13,6 +13,7 @@ beginDialog:
       - thank you
       - thanks so much
       - ty
+      - appreciate it
 
   actions:
     - kind: SendActivity
