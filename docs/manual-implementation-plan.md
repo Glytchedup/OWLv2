@@ -346,6 +346,5 @@ Run through this checklist before going live:
 
 ### v2 Roadmap
 - Add `Channel_Topic_Index` for topic clustering and trend reporting
-- Add `Agent_Feedback` table if not created in v1
 - Add recurring issue detection (same `DuplicateFingerprint` appearing multiple times)
 - Expand to additional Teams channels via new `Channel_Ingestion_Control` rows

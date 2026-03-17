@@ -24,21 +24,17 @@ beginDialog:
               activity: I'm still not finding a match. Try asking in a different way, or let me know if you'd like me to route this to a person for follow-up.
 
         - id: conditionItem_attempt3
-          condition: =System.FallbackCount = 3
+          condition: =System.FallbackCount >= 3
           actions:
             - kind: SendActivity
               id: sendMessage_attempt3
               activity: I have not been able to find what you need after a few tries. Let me connect you with someone who can help directly.
 
             - kind: BeginDialog
-              id: beginEscalate_attempt3
+              id: 5aXj5M
               dialog: rmas_owlv2.topic.Escalate
 
       elseActions:
         - kind: SendActivity
-          id: sendMessage_attempt3_fallback
-          activity: I have not been able to find what you need after several tries. Let me connect you with someone who can help directly.
-
-        - kind: BeginDialog
-          id: beginEscalate_fallback
-          dialog: rmas_owlv2.topic.Escalate
+          id: sendMessage_unexpected
+          activity: I wasn't able to match that to a topic I know about. Could you rephrase your question? Including the product area, specific error text, or what you are trying to accomplish helps me find better results.
