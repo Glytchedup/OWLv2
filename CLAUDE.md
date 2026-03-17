@@ -13,19 +13,18 @@ The agent prioritizes official guidance, uses channel history as supporting cont
 
 ```
 OWLv2/
-├── OWLv2/                        # Copilot Studio agent project
-│   ├── agent.mcs.yml             # Agent metadata and system instructions
-│   ├── settings.mcs.yml          # AI model and capability settings
-│   ├── icon.png                  # Agent icon
-│   └── topics/                   # Conversation flow topics (13 YAML files)
-│       ├── Search.mcs.yml        # Main knowledge retrieval topic
-│       ├── Escalate.mcs.yml      # Human escalation handling
-│       ├── Fallback.mcs.yml      # Low-confidence handling
-│       ├── Greeting.mcs.yml      # Greeting responses
-│       ├── ConversationStart.mcs.yml
-│       ├── EndofConversation.mcs.yml
-│       ├── OnError.mcs.yml       # Error logging
-│       └── ...                   # Other system/custom topics
+├── agent.mcs.yml                 # Agent metadata and system instructions
+├── settings.mcs.yml              # AI model and capability settings
+├── icon.png                      # Agent icon
+├── topics/                       # Conversation flow topics (13 YAML files)
+│   ├── Search.mcs.yml            # Main knowledge retrieval topic
+│   ├── Escalate.mcs.yml          # Human escalation handling
+│   ├── Fallback.mcs.yml          # Low-confidence handling
+│   ├── Greeting.mcs.yml          # Greeting responses
+│   ├── ConversationStart.mcs.yml
+│   ├── EndofConversation.mcs.yml
+│   ├── OnError.mcs.yml           # Error logging
+│   └── ...                       # Other system/custom topics
 ├── Build Plans/                  # Design documentation
 │   ├── teams-channel-memory-agent-copilot-studio-design.md
 │   ├── teams-channel-memory-agent-dataverse-schema.md
