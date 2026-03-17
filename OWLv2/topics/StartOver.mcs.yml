@@ -12,6 +12,7 @@ beginDialog:
       - start over
       - start again
       - restart
+      - reset conversation
 
   actions:
     - kind: Question
