@@ -23,8 +23,9 @@ Use this file to audit OWLv2 agent configuration after every update. All limits 
 | Limit | Value | Notes |
 |---|---|---|
 | **Max topics per agent** | 1,000 | Use knowledge sources instead of one-topic-per-FAQ |
-| **Max nodes per topic** | Not hard-documented | Keep topics small; Microsoft recommends many small topics over few large ones |
-| **Trigger phrases per topic** | No hard max | **Recommended: 5–10 phrases**; can bulk-upload via file (max 3 MB) |
+| **Max nodes per topic** | 500 | Keep topics small; Microsoft recommends many small topics over few large ones |
+| **Entities per Question node** | 5 | One of each type |
+| **Trigger phrases per topic** | ~200 hard max | **Recommended: 5–10 phrases**; can bulk-upload via file (max 3 MB) |
 | **Trigger phrase length** | Short phrases | Avoid full sentences; brevity improves NLU matching |
 
 ## Knowledge Source Limits
@@ -65,6 +66,26 @@ Use this file to audit OWLv2 agent configuration after every update. All limits 
 | **Paid plans** | Configurable | Contact admin for increases |
 
 Throttling error codes: `GenAIToolPlannerRateLimitReached`, `GenAISearchandSummarizeRateLimitReached`, `OpenAIRateLimitReached`
+
+## Session Limits
+
+| Limit | Value |
+|---|---|
+| **Session timeout (inactivity)** | 30 minutes |
+| **Maximum session duration** | 60 minutes (new session starts after) |
+| **Maximum turns per session** | 100 (new billed session after) |
+| **Sessions per user per 24 hours** | 10 (operational limit) |
+
+## Billing / Credits
+
+| Action | Credit Cost |
+|---|---|
+| **Classic response** (scripted topic) | 1 credit |
+| **Generative response** (model-generated) | 2 credits |
+| **Agent action** (invoke tools/steps) | 5 credits |
+| **Tenant Graph grounding** (tenant context) | 10 credits |
+| **Credit pack** | 25,000 credits / $200/month |
+| **Pay-as-you-go** | $0.01/credit |
 
 ## Runtime and Publishing Limits
 
@@ -280,3 +301,5 @@ for f in sorted(glob.glob('OWLv2/topics/*.mcs.yml')):
 - [Prompts performance and execution](https://learn.microsoft.com/en-us/microsoft-copilot-studio/prompts-performance-execution)
 - [Code editor in topics](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/topics-code-editor)
 - [Create and delete agents](https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-first-bot)
+- [Billing rates and management](https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management)
+- [Error codes](https://learn.microsoft.com/en-us/microsoft-copilot-studio/error-codes)
