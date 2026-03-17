@@ -60,16 +60,16 @@ Create all 7 tables in your target Dataverse environment. Reference: `Build Plan
 2. Add all columns from schema doc
 3. Set `LastRunStatus` choice values: `Success`, `Partial`, `Failed`
 
-**v2 tables (create after pilot proves value):**
-
-#### Table 6: `Channel_Topic_Index`
-1. Create table with all columns from schema doc
-2. Optional for v1 — useful for topic clustering and trend analysis later
-
-#### Table 7: `Agent_Feedback`
+#### Table 6: `Agent_Feedback`
 1. Create table with display name `Agent Feedback`
 2. Add all columns from schema doc
 3. Set `FeedbackType` choice values: `Correct`, `Incorrect`, `Incomplete`
+
+**v2 tables (create after pilot proves value):**
+
+#### Table 7: `Channel_Topic_Index`
+1. Create table with all columns from schema doc
+2. Optional for v1 — useful for topic clustering and trend analysis later
 
 ### Step 1.2: Set table permissions
 1. Restrict `KB_Article` edit access to owners/admins only
