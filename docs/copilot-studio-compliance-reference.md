@@ -13,7 +13,7 @@ Use this file to audit OWLv2 agent configuration after every update. All limits 
 | **Agent instructions** | **8,000 chars** | 6,000 chars | Official documented limit is 8,000 chars (~1,500 words). A legacy bug report mentioned a 2,000-char post-edit limit but this is NOT the current behavior. Use the full budget; keep under 6,000 for clarity |
 | **Topic `componentName`** | Not documented | ~50 chars | PascalCase, descriptive |
 | **Topic `description`** | ~1,000 chars | 500 chars | Used by generative orchestration to decide which topic to invoke — keep concise and specific |
-| **SendActivity message** | ~4,000 chars | 2,000 chars | Channel-dependent; Teams Adaptive Cards have additional constraints; ACS channels limited to 28 KB total message payload |
+| **SendActivity message** | 10,240 chars | 4,000 chars | Hard limit is 10,240 chars per message; AI-generated responses typically cap at ~4,000; ACS channels limited to 28 KB total payload |
 | **Node names** | 500 chars | 200 chars | Internal labels |
 | **Variable names** | Not documented | ~100 chars | Use camelCase with prefixes (`varTeamId`) |
 | **Glossary term descriptions** | 1,000 chars | 500 chars | If using glossary |
@@ -47,12 +47,32 @@ Use this file to audit OWLv2 agent configuration after every update. All limits 
 | **SharePoint lists per session** | 15 |
 | **SharePoint lookup columns in default view** | 12 max |
 
+## Generative Orchestration Limits
+
+| Limit | Value | Notes |
+|---|---|---|
+| **Max tools per agent** | 128 | Includes actions, flows, and plugins |
+| **Recommended tools per agent** | 25–30 | Beyond this, routing accuracy degrades |
+| **Conversation history turns referenced** | 10 | Agent considers last 10 turns for context |
+| **Language support** | English only | For generative orchestration mode |
+| **Agent chaining depth** | 1 level | Orchestrator → sub-agent; no deeper nesting |
+
+## Rate Limits
+
+| Environment | RPM | RPH |
+|---|---|---|
+| **Trial / Developer** | 10 | 200 |
+| **Paid plans** | Configurable | Contact admin for increases |
+
+Throttling error codes: `GenAIToolPlannerRateLimitReached`, `GenAISearchandSummarizeRateLimitReached`, `OpenAIRateLimitReached`
+
 ## Runtime and Publishing Limits
 
 | Limit | Value |
 |---|---|
 | **Prompt execution timeout** | 100 seconds |
 | **Flow response data to agent** | 1 MB per action |
+| **Power Automate flow inactivity timeout** | 2 minutes |
 | **ACS channel message size** | 28 KB |
 | **Agent icon** | PNG, < 72 KB, max 192x192 px |
 | **Copilot credits (M365 license)** | 25,000/month shared across users |
@@ -112,6 +132,18 @@ Azure AI Content Safety protections remain active at all levels. Content moderat
 
 ---
 
+## YAML / Adaptive Dialog Constraints
+
+| Constraint | Detail |
+|---|---|
+| **Variable init prefix** | Question action variables MUST use `init:` prefix (e.g., `init:Topic.Confirm`) |
+| **Text concatenation** | Use `Concatenate()` function, NOT the `&` operator |
+| **Variable scope** | Use `Global` or `Topic` scope; `Dialog` scope can cause recognition errors |
+| **Topic names** | Periods (`.`) in topic names block solution export |
+| **Complex GotoAction** | Can cause silent failures; prefer `BeginDialog` redirects |
+
+---
+
 ## Common Publishing Failures
 
 1. **DLP policy violations** — Data Loss Prevention policies blocking required channels (Direct Line, etc.)
@@ -122,6 +154,8 @@ Azure AI Content Safety protections remain active at all levels. Content moderat
 6. **Teams channel sync errors** — mismatched bot/app IDs
 7. **Authentication not configured** — environment requires sign-in but agent doesn't have it set up
 8. **No active channel** — at least one active channel is required to publish
+9. **Bing source limit** — max 4 Bing sources; exceeding blocks publish
+10. **Sub-agent not published** — must publish sub-agents before the orchestrator agent
 
 ---
 
@@ -240,3 +274,9 @@ for f in sorted(glob.glob('OWLv2/topics/*.mcs.yml')):
 - [Content moderation settings](https://learn.microsoft.com/en-us/microsoft-copilot-studio/prompt-model-settings)
 - [Instructions character limit discussion — Microsoft Community](https://techcommunity.microsoft.com/discussions/microsoft365copilot/ai-agent-instructions-character-limit-in-studio-license/4468072)
 - [Copilot Studio instructions issues — Microsoft Q&A](https://learn.microsoft.com/en-us/answers/questions/4419038/copilot-studio-instructions-issues)
+- [Generative orchestration capabilities](https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-generative-actions)
+- [Resolve throttling errors](https://learn.microsoft.com/en-us/troubleshoot/power-platform/copilot-studio/licensing/throttling-errors-agents)
+- [Optimize prompts with custom instructions](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/optimize-prompts-custom-instructions)
+- [Prompts performance and execution](https://learn.microsoft.com/en-us/microsoft-copilot-studio/prompts-performance-execution)
+- [Code editor in topics](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/topics-code-editor)
+- [Create and delete agents](https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-first-bot)
