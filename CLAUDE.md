@@ -31,7 +31,9 @@ OWLv2/
 │   ├── teams-channel-memory-agent-dataverse-schema.md
 │   └── teams-channel-memory-agent-power-automate-plan.md
 ├── docs/
-│   └── tenant-implementation-runbook.md
+│   ├── tenant-implementation-runbook.md
+│   ├── claude-code-plan.md       # Automated implementation plan (Claude Code)
+│   └── manual-implementation-plan.md  # Manual tenant setup plan
 ├── .github/ISSUE_TEMPLATE/       # Bug report and feature request templates
 ├── README.md
 ├── CONTRIBUTING.md
@@ -126,6 +128,30 @@ Next step:
 - Teams channel data is classified as **internal/sensitive**
 - Never commit credentials, tenant IDs, or secrets
 - See `SECURITY.md` for full data handling policy and incident procedures
+
+## Agent Configuration Summary
+
+### AI Settings
+- `useModelKnowledge: false` — agent answers ONLY from grounded sources, never from general model knowledge
+- `isSemanticSearchEnabled: true` — enables Dataverse knowledge search
+- `contentModeration: High`
+- `webBrowsing` and `codeInterpreter` are disabled (not relevant for this operational Q&A agent)
+
+### Source Priority Order
+1. `KB_Article` (official curated knowledge) — highest priority
+2. `Channel_Issue_Solution` (prior resolved issues from channel threads)
+3. `Channel_Thread_Summary` (recent thread summaries)
+4. `Channel_Message_Raw` (raw messages — detail fallback only)
+
+### Confidence Levels
+- **High**: Strong official KB match exists
+- **Medium**: No KB match, but confirmed resolved issue/solution from channel history
+- **Low**: Only unconfirmed thread summaries or nothing found
+
+## Implementation Plans
+
+- **Claude Code plan** (automated): `docs/claude-code-plan.md` — covers all YAML/config optimization
+- **Manual plan** (requires tenant access): `docs/manual-implementation-plan.md` — Dataverse schema, Power Automate flows, Copilot Studio wiring, pilot validation
 
 ## Key Design Documents
 

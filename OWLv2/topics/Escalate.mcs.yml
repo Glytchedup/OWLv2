@@ -1,9 +1,6 @@
 mcs.metadata:
   componentName: Escalate
-  description: |-
-    This system topic is triggered when the user indicates they would like to speak to a representative.
-    You can configure how the agent will handle human hand-off scenarios in the agent settings..
-    If your agent does not handle escalations, this topic should be disabled.
+  description: Handles escalation to a human representative. Provides a structured support ticket template and offers to help the user prepare their request.
 kind: AdaptiveDialog
 startBehavior: CancelOtherTopics
 beginDialog:
@@ -61,14 +58,14 @@ beginDialog:
       id: sendMessage_s39DCt
       conversationOutcome: Escalated
       activity: |-
-        I can flag this for manual follow-up, but live hand-off is not yet connected in this environment.
+        I understand you need human assistance. Live hand-off is not yet connected in this environment, but I can help you prepare a support request.
 
-        Next step: please open a support ticket and include your question, expected outcome, and any error text. I can help summarize that now if needed.
+        **Next step:** Open a support ticket with the details below. The more context you include, the faster the team can help.
 
     - kind: Question
       id: question_helpSummarize
       variable: init:Topic.HelpSummarize
-      prompt: Would you like a quick summary template for your support ticket?
+      prompt: Would you like a support ticket template to get started?
       entity: BooleanPrebuiltEntity
 
     - kind: ConditionGroup
@@ -80,13 +77,16 @@ beginDialog:
             - kind: SendActivity
               id: sendMessage_summaryTemplate
               activity: |-
-                Use this template:
-                - Issue: <what is not working>
-                - Expected result: <what should happen>
-                - Actual result: <what happened>
-                - Impact: <who or what is blocked>
-                - Time observed: <date/time and timezone>
+                Here is a template you can use:
+
+                **Issue:** <describe what is not working>
+                **Expected result:** <what should happen>
+                **Actual result:** <what happened instead>
+                **Impact:** <who or what is blocked>
+                **Time observed:** <date, time, and timezone>
+                **Steps to reproduce:** <if applicable>
+                **Product/system:** <which product or system is affected>
 
     - kind: SendActivity
       id: sendMessage_anythingElse
-      activity: Is there anything else I can help with right now?
+      activity: Is there anything else I can help with?

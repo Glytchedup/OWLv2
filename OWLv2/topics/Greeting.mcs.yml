@@ -1,6 +1,6 @@
 mcs.metadata:
   componentName: Greeting
-  description: This topic is triggered when the user greets the agent.
+  description: Triggered when the user greets the agent. Responds with a brief capability overview.
 kind: AdaptiveDialog
 beginDialog:
   kind: OnRecognizedIntent
@@ -20,7 +20,8 @@ beginDialog:
       id: sendMessage_abmysR
       activity:
         text:
-          - Hello, how can I help you today?
+          - |-
+            Hello! I can help you find official guidance and check if similar issues have come up before in this channel. What can I help you with?
         speak:
           - Hello, <break strength="medium" /> how can I help?
 
