@@ -23,11 +23,22 @@ beginDialog:
               id: sendMessage_attempt2
               activity: I'm still not finding a match. Try asking in a different way, or let me know if you'd like me to route this to a person for follow-up.
 
+        - id: conditionItem_attempt3
+          condition: =System.FallbackCount = 3
+          actions:
+            - kind: SendActivity
+              id: sendMessage_attempt3
+              activity: I have not been able to find what you need after a few tries. Let me connect you with someone who can help directly.
+
+            - kind: BeginDialog
+              id: beginEscalate_attempt3
+              dialog: rmas_owlv2.topic.Escalate
+
       elseActions:
         - kind: SendActivity
-          id: sendMessage_attempt3
-          activity: I have not been able to find what you need after a few tries. Let me connect you with someone who can help directly.
+          id: sendMessage_attempt3_fallback
+          activity: I have not been able to find what you need after several tries. Let me connect you with someone who can help directly.
 
         - kind: BeginDialog
-          id: 5aXj5M
+          id: beginEscalate_fallback
           dialog: rmas_owlv2.topic.Escalate
