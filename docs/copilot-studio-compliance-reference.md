@@ -10,7 +10,7 @@ Use this file to audit OWLv2 agent configuration after every update. All limits 
 |---|---|---|---|
 | **Agent display name** | 42 chars | 42 chars | Keep short and descriptive |
 | **Agent description** (`mcs.metadata.description`) | 1,024 chars | 800 chars | Used by generative orchestration for routing |
-| **Agent instructions** | 8,000 chars | **2,000 chars** | Known bug: field may drop to 2,000-char limit after initial creation when re-editing in Studio UI. Keep under 2,000 to avoid truncation risk |
+| **Agent instructions** | **8,000 chars** | 6,000 chars | Official documented limit is 8,000 chars (~1,500 words). A legacy bug report mentioned a 2,000-char post-edit limit but this is NOT the current behavior. Use the full budget; keep under 6,000 for clarity |
 | **Topic `componentName`** | Not documented | ~50 chars | PascalCase, descriptive |
 | **Topic `description`** | ~1,000 chars | 500 chars | Used by generative orchestration to decide which topic to invoke — keep concise and specific |
 | **SendActivity message** | ~4,000 chars | 2,000 chars | Channel-dependent; Teams Adaptive Cards have additional constraints; ACS channels limited to 28 KB total message payload |
@@ -78,7 +78,7 @@ Azure AI Content Safety protections remain active at all levels. Content moderat
 - Define organization-specific terms the agent needs to understand
 - Reference only actually configured tools and knowledge sources
 - Test incrementally: remove all instructions, add back one at a time, test between each
-- Keep the total under **2,000 characters** to avoid the post-creation truncation bug
+- Use up to **8,000 characters** (the official limit); aim for under 6,000 for clarity and processing efficiency
 
 ### Avoid
 - Writing what the agent should NOT do (focus on what it SHOULD do)
@@ -132,7 +132,7 @@ Run this checklist after every agent update before publishing:
 ### Agent Core
 - [ ] `displayName` is ≤ 42 characters
 - [ ] `mcs.metadata.description` is ≤ 1,024 characters
-- [ ] `instructions` is ≤ **2,000 characters** (safe limit to avoid truncation)
+- [ ] `instructions` is ≤ **8,000 characters** (official limit; aim for ≤ 6,000 for clarity)
 - [ ] Instructions use positive phrasing (what TO do, not what NOT to do)
 - [ ] Instructions do not reference tools/actions that are not configured
 - [ ] Instructions do not repeat similar guidance in multiple places
@@ -188,7 +188,7 @@ inst = agent.get('instructions', '')
 print('=== AGENT CORE ===')
 print(f'displayName: {len(name)}/42 chars', '  PASS' if len(name) <= 42 else '  FAIL')
 print(f'description: {len(desc)}/1024 chars', '  PASS' if len(desc) <= 1024 else '  FAIL')
-print(f'instructions: {len(inst)}/2000 chars', '  PASS' if len(inst) <= 2000 else '  FAIL (exceeds safe limit)')
+print(f'instructions: {len(inst)}/8000 chars', '  PASS' if len(inst) <= 8000 else '  FAIL (exceeds limit)')
 print()
 
 # Topics
