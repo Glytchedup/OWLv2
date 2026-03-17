@@ -1,6 +1,6 @@
 mcs.metadata:
   componentName: Thank you
-  description: This topic triggers when the user says thank you.
+  description: Triggered when the user says thank you. Acknowledges and offers continued help.
 kind: AdaptiveDialog
 beginDialog:
   kind: OnRecognizedIntent
@@ -17,4 +17,4 @@ beginDialog:
   actions:
     - kind: SendActivity
       id: sendMessage_9iz6v7
-      activity: You're welcome.
+      activity: You're welcome. Let me know if there is anything else I can help with.

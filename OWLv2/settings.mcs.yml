@@ -1,4 +1,4 @@
-﻿displayName: OWLv2
+displayName: OWLv2
 schemaName: rmas_owlv2
 accessControlPolicy: GroupMembership
 authenticationMode: Integrated
@@ -12,7 +12,7 @@ configuration:
     defaultSchemaName: rmas_owlv2.gpt.default
 
   aISettings:
-    useModelKnowledge: true
+    useModelKnowledge: false
     isFileAnalysisEnabled: true
     isSemanticSearchEnabled: true
     contentModeration: High

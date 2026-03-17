@@ -1,6 +1,6 @@
 mcs.metadata:
   componentName: Conversational boosting
-  description: Create grounded answers from official knowledge and channel memory.
+  description: Primary retrieval topic. Searches official knowledge articles and channel memory to create grounded answers. Offers escalation when grounding is weak.
 kind: AdaptiveDialog
 beginDialog:
   kind: OnUnknownIntent
@@ -25,7 +25,12 @@ beginDialog:
       elseActions:
         - kind: SendActivity
           id: sendMessage_lowConfidence
-          activity: I could not find strong grounding for that yet. I can try again if you share more detail, or I can help escalate this for manual follow-up.
+          activity: |-
+            I could not find strong grounding for that question.
+
+            **Confidence:** Low
+
+            **Next step:** I can try again if you share more detail such as product area, exact error text, or what you are trying to do. I can also route this for manual follow-up.
 
         - kind: Question
           id: question_offerEscalation
@@ -44,6 +49,10 @@ beginDialog:
                   dialog: rmas_owlv2.topic.Escalate
 
           elseActions:
+            - kind: SendActivity
+              id: sendMessage_tryAgain
+              activity: No problem. Try rephrasing your question with more detail and I will search again.
+
             - kind: EndDialog
               id: endDialog_noEscalation
               clearTopicQueue: true

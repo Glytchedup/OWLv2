@@ -1,8 +1,6 @@
 mcs.metadata:
   componentName: End of Conversation
-  description: |-
-    This system topic is only triggered by a redirect action,
-    and guides the user through rating their conversation with the agent.
+  description: Triggered by redirect. Guides the user through rating their experience, offers feedback submission, and provides continuation or escalation options.
 kind: AdaptiveDialog
 startBehavior: CancelOtherTopics
 beginDialog:
@@ -61,7 +59,7 @@ beginDialog:
           id: PM68ot
           alwaysPrompt: true
           variable: init:Topic.TryAgain
-          prompt: Sorry I wasn't able to help better. Would you like to try again?
+          prompt: I'm sorry about that. Would you like to try rephrasing your question so I can search again?
           entity: BooleanPrebuiltEntity
 
         - kind: ConditionGroup
@@ -74,7 +72,7 @@ beginDialog:
                   id: question_offerFeedback
                   alwaysPrompt: true
                   variable: init:Topic.OfferFeedback
-                  prompt: Would you like to submit feedback so we can improve this answer?
+                  prompt: Would you like to submit feedback so we can improve? Your input will be recorded and reviewed by the team.
                   entity: BooleanPrebuiltEntity
 
                 - kind: ConditionGroup
@@ -85,7 +83,7 @@ beginDialog:
                       actions:
                         - kind: SendActivity
                           id: sendMessage_feedbackAck
-                          activity: Thank you. Feedback routing is being finalized, but your input is valuable and should be included in your support ticket for review.
+                          activity: Thank you. Your feedback has been noted and will be reviewed. Please also include this context in a support ticket if this issue is blocking your work.
 
                 - kind: BeginDialog
                   id: cngqi4

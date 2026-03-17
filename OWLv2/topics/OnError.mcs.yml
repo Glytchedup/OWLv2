@@ -1,6 +1,6 @@
 mcs.metadata:
   componentName: On Error
-  description: This system topic triggers when the agent encounters an error. When using the test chat pane, the full error description is displayed.
+  description: Triggers when the agent encounters an error. Shows detailed diagnostics in test mode and a user-friendly message in production. Logs all errors to telemetry.
 kind: AdaptiveDialog
 startBehavior: UseLatestPublishedContentAndCancelOtherTopics
 beginDialog:
@@ -32,12 +32,11 @@ beginDialog:
           activity:
             text:
               - |-
-                An error has occurred.
-                Error code: {System.Error.Code}
-                Conversation Id: {System.Conversation.Id}
-                Time (UTC): {Topic.CurrentTime}.
+                Something went wrong on my end. Please try your question again.
+
+                If this keeps happening, you can open a support ticket and reference conversation ID: {System.Conversation.Id} (time: {Topic.CurrentTime} UTC).
             speak:
-              - An error has occurred, please try again.
+              - Something went wrong. Please try again, or ask to speak with a person if this continues.
 
     - kind: LogCustomTelemetryEvent
       id: 9KwEAn

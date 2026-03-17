@@ -1,6 +1,6 @@
 mcs.metadata:
   componentName: Fallback
-  description: This system topic triggers when the user's utterance does not match any existing topics.
+  description: Triggers when the user's message does not match any topic. Progressively asks for more detail, then escalates after three failed attempts.
 kind: AdaptiveDialog
 beginDialog:
   kind: OnUnknownIntent
@@ -9,14 +9,36 @@ beginDialog:
     - kind: ConditionGroup
       id: conditionGroup_LktzXw
       conditions:
-        - id: conditionItem_tlGIVo
-          condition: =System.FallbackCount < 3
+        - id: conditionItem_attempt1
+          condition: =System.FallbackCount = 1
           actions:
             - kind: SendActivity
-              id: sendMessage_QZreqo
-              activity: I do not have enough grounding to answer confidently yet. Please try rephrasing with product area, exact error text, and what you are trying to do.
+              id: sendMessage_attempt1
+              activity: I wasn't able to match that to a topic I know about. Could you rephrase your question? Including the product area, specific error text, or what you are trying to accomplish helps me find better results.
+
+        - id: conditionItem_attempt2
+          condition: =System.FallbackCount = 2
+          actions:
+            - kind: SendActivity
+              id: sendMessage_attempt2
+              activity: I'm still not finding a match. Try asking in a different way, or let me know if you'd like me to route this to a person for follow-up.
+
+        - id: conditionItem_attempt3
+          condition: =System.FallbackCount = 3
+          actions:
+            - kind: SendActivity
+              id: sendMessage_attempt3
+              activity: I have not been able to find what you need after a few tries. Let me connect you with someone who can help directly.
+
+            - kind: BeginDialog
+              id: beginEscalate_attempt3
+              dialog: rmas_owlv2.topic.Escalate
 
       elseActions:
+        - kind: SendActivity
+          id: sendMessage_attempt3_fallback
+          activity: I have not been able to find what you need after several tries. Let me connect you with someone who can help directly.
+
         - kind: BeginDialog
-          id: 5aXj5M
+          id: beginEscalate_fallback
           dialog: rmas_owlv2.topic.Escalate
