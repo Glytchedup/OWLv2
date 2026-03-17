@@ -70,6 +70,23 @@ beginDialog:
             - id: DPveFP
               condition: =Topic.TryAgain = false
               actions:
+                - kind: Question
+                  id: question_offerFeedback
+                  alwaysPrompt: true
+                  variable: init:Topic.OfferFeedback
+                  prompt: Would you like to submit feedback so we can improve this answer?
+                  entity: BooleanPrebuiltEntity
+
+                - kind: ConditionGroup
+                  id: conditionGroup_offerFeedback
+                  conditions:
+                    - id: conditionItem_offerFeedback_yes
+                      condition: =Topic.OfferFeedback = true
+                      actions:
+                        - kind: SendActivity
+                          id: sendMessage_feedbackAck
+                          activity: Thank you. Feedback routing is being finalized, but your input is valuable and should be included in your support ticket for review.
+
                 - kind: BeginDialog
                   id: cngqi4
                   dialog: rmas_owlv2.topic.Escalate

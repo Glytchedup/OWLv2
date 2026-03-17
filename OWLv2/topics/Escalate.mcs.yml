@@ -61,6 +61,32 @@ beginDialog:
       id: sendMessage_s39DCt
       conversationOutcome: Escalated
       activity: |-
-        Escalating to a representative is not currently configured for this agent, however this is where the agent could provide information about how to get in touch with someone another way.
+        I can flag this for manual follow-up, but live hand-off is not yet connected in this environment.
 
-        Is there anything else I can help you with?
+        Next step: please open a support ticket and include your question, expected outcome, and any error text. I can help summarize that now if needed.
+
+    - kind: Question
+      id: question_helpSummarize
+      variable: init:Topic.HelpSummarize
+      prompt: Would you like a quick summary template for your support ticket?
+      entity: BooleanPrebuiltEntity
+
+    - kind: ConditionGroup
+      id: conditionGroup_summaryTemplate
+      conditions:
+        - id: conditionItem_summaryTemplate_yes
+          condition: =Topic.HelpSummarize = true
+          actions:
+            - kind: SendActivity
+              id: sendMessage_summaryTemplate
+              activity: |-
+                Use this template:
+                - Issue: <what is not working>
+                - Expected result: <what should happen>
+                - Actual result: <what happened>
+                - Impact: <who or what is blocked>
+                - Time observed: <date/time and timezone>
+
+    - kind: SendActivity
+      id: sendMessage_anythingElse
+      activity: Is there anything else I can help with right now?

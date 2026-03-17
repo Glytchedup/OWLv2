@@ -1,6 +1,6 @@
 mcs.metadata:
   componentName: Conversational boosting
-  description: Create generative answers from knowledge sources.
+  description: Create grounded answers from official knowledge and channel memory.
 kind: AdaptiveDialog
 beginDialog:
   kind: OnUnknownIntent
@@ -20,4 +20,30 @@ beginDialog:
           actions:
             - kind: EndDialog
               id: end-topic
+              clearTopicQueue: true
+
+      elseActions:
+        - kind: SendActivity
+          id: sendMessage_lowConfidence
+          activity: I could not find strong grounding for that yet. I can try again if you share more detail, or I can help escalate this for manual follow-up.
+
+        - kind: Question
+          id: question_offerEscalation
+          variable: init:Topic.RequestEscalation
+          prompt: Would you like me to route this to escalation?
+          entity: BooleanPrebuiltEntity
+
+        - kind: ConditionGroup
+          id: conditionGroup_routeEscalation
+          conditions:
+            - id: conditionItem_routeEscalation_yes
+              condition: =Topic.RequestEscalation = true
+              actions:
+                - kind: BeginDialog
+                  id: beginDialog_escalate
+                  dialog: rmas_owlv2.topic.Escalate
+
+          elseActions:
+            - kind: EndDialog
+              id: endDialog_noEscalation
               clearTopicQueue: true

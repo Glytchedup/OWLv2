@@ -14,7 +14,7 @@ beginDialog:
           actions:
             - kind: SendActivity
               id: sendMessage_QZreqo
-              activity: I'm sorry, I'm not sure how to help with that. Can you try rephrasing?
+              activity: I do not have enough grounding to answer confidently yet. Please try rephrasing with product area, exact error text, and what you are trying to do.
 
       elseActions:
         - kind: BeginDialog
